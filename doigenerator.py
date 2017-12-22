@@ -1,6 +1,6 @@
 import base32_crockford as b32
 
-def generate_doi(prefix, intid, offset):
+def generate_doi(prefix, intid, offset, url=True):
     """ Generates a DOI based on Crockford's base32
     http://www.crockford.com/wrmg/base32.html
     
@@ -61,20 +61,21 @@ def generate_doi(prefix, intid, offset):
     suffix = b32.encode(intid2i(intid, offset), checksum=True)
     padding = 6 - len(suffix)
     suffix = padding * '0' + suffix
-    return '{}/{}'.format(prefix, suffix)
+    proxy = 'https://doi.org/' if url else ''
+    return '{}{}/{}'.format(proxy, prefix, suffix)
 
 def revert_doi(doi):
-    """
+    '''
     Returns offset and internal ID belonging to a DOI that was generated
     with generate_doi().
 
     Args:
         doi (str): The DOI
     Returns:
-        {prefix (str): the prefix, offset (int): the offset,
-         intid (int): internal ID}
+        {"prefix" (str): the prefix, "offset" (int): the offset,
+         "intid" (int): internal ID}
 
-    """
+    '''
     prefix, encoded = doi.split('/')
     i = b32.decode(encoded, checksum=True)
     n = int(i / 37)

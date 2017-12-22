@@ -1,14 +1,18 @@
 # DOI-generator
 
-Generates a DOI based on Crockford's base32
-http://www.crockford.com/wrmg/base32.html as suggested by M. Fenner's ["Cool DOIs" blog post](https://doi.org/10.5438/55e5-t5c0).
+A typical DOI generated with this tool looks like so: **10.24386/YK4G6A**
 
-A typical DOI generated with this tool looks like so:
+----
 
+DOI-generator generates a DOI based on Crockford's base32 http://www.crockford.com/wrmg/base32.html as suggested by M. Fenner's ["Cool DOIs" blog post](https://doi.org/10.5438/55e5-t5c0), according to which the main qualities of a good DOI are:
 
-**10.24386/YK4G6A**
++ *opaque without semantic information*
++ *work well in a web environment, avoiding characters problematic in URLs*
++ *short and human-readable*
++ *resistant to transcription errors*
++ *easy to generate*
 
-We have changed some details, however:
+We have changed some details from the "Cool DOIs" method, however:
 
 * Instead of basing the suffix on a randomly generated number, we base
   it on an internal ID. That results in a more effective generation of

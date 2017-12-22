@@ -10,8 +10,7 @@ def test_generate_doi():
     offsets = [0, 18e6, 26e6]
     for intid in intids:
         for offset in offsets:
-            doi = generate_doi(prefix, intid, offset)
-            print(doi)
+            doi = generate_doi(prefix, intid, offset, url=False)
             reverse = revert_doi(doi)
             assert(reverse['prefix'] == prefix)
             assert(reverse['offset'] == offset)
@@ -21,4 +20,9 @@ def test_generate_doi():
         generate_doi(prefix, 2e6, 20e6)
     with pytest.raises(AssertionError):
         generate_doi(prefix, 30, 21e6)
+        
+    print(generate_doi(prefix, 33, 0))
+
+    assert(generate_doi(prefix, 0, 0) == 'https://doi.org/{}/000000'
+           .format(prefix))
         
