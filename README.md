@@ -2,17 +2,41 @@
 
 A typical DOI generated with this tool looks like so: **10.24386/YK4G6A**
 
-There is a Python module with two functions
+## Installation
 
+```bash
+pip install git+https://github.com/eawag-rdm/doigenerator.git
+```
+
+## Python module
+
+There are two functions
 ```python
 generate_doi(prefix, intid, offset, url=False)
 revert_doi(doi)
 ```
-
 The arguments and options are the same as for the CLI script explained below.
 
+**Example**
 
-There is a command-line script:
+```python
+from doigenerator.doigenerator import generate_doi, revert_doi
+
+newdoi_bare = generate_doi('10.1234', 17, 4e6)
+print(newdoi_bare)
+newdoi_url = generate_doi('10.1234', 17, 4e6, url=True)
+print(newdoi_url)
+reverted = revert_doi(newdoi_bare)
+print(reverted)
+
+# Output:
+# 10.1234/4D4KSH
+# https://doi.org/10.1234/4D4KSH
+# {'intid': 17, 'prefix': '10.1234', 'offset': 4000000}
+
+```
+
+## Command line script
 
 **doigenerator**
 
@@ -28,7 +52,8 @@ There is a command-line script:
 	Arguments:
 	  <prefix>    The DOI prefix assigned to your datacenter.
 	  <id>        An internal ID <2e6 (integer), usually a counter of minted DOIs.
-	  <offset>    Is added to the internal ID. Assign offsets 0, 2e6, 4e6, ... 26e6 to different data centers.
+	  <offset>    Is added to the internal ID. Assign offsets 0, 2e6, 4e6, ... 26e6
+	              to different data centers.
 	  <doi>       A DOI that was generated with doigenerator (not the URL - form).
 
 
@@ -38,6 +63,8 @@ There is a command-line script:
 
 
 ----
+
+## Background
 
 DOI-generator generates a DOI based on Crockford's base32 http://www.crockford.com/wrmg/base32.html as suggested by M. Fenner's ["Cool DOIs" blog post](https://doi.org/10.5438/55e5-t5c0), according to which the main qualities of a good DOI are:
 
