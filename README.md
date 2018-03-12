@@ -1,5 +1,9 @@
 # DOI-generator
 
+[![Build Status](https://travis-ci.org/eawag-rdm/doigenerator.svg?branch=master)](https://travis-ci.org/eawag-rdm/doigenerator)
+
+**Compatible With: python2.7, 3.3, 3.4, 3.5, 3.6, and pypy**
+
 A typical DOI generated with this tool looks like so: **10.24386/YK4G6A**
 
 ## Installation
