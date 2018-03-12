@@ -1,4 +1,4 @@
-from doigenerator.doigenerator import generate_doi, revert_doi
+from .doigenerator import generate_doi, revert_doi
 import random
 import pytest
 
