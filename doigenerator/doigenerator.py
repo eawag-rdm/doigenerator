@@ -1,4 +1,30 @@
+# _*_ coding: utf-8 _*_
+"""doigenerator
+
+Generates a DOI based on Crockford's base32
+(http://www.crockford.com/wrmg/base32.html).
+
+Usage:
+  doigenerator [-u] <prefix> <id> <offset>
+  doigenerator -r <doi>
+  doigenerator -h
+
+
+Arguments:
+  <prefix>    The DOI prefix assigned to your datacenter.
+  <id>        An internal ID <2e6 (integer), usually a counter of minted DOIs.
+  <offset>    Is added to the internal ID. Assign offsets 0, 2e6, 4e6, ... 26e6 to different data centers.
+  <doi>       A DOI that was generated with doigenerator (not the URL - form).
+
+
+Options:
+  -u, --url       Return the DOI in URL-form, e.g. "https://doi.org/10.123/123456".
+  -r, --reverse   Returns offset and internal ID belonging to <doi>.
+
+"""
 import base32_crockford as b32
+import sys
+from docopt import docopt
 
 def generate_doi(prefix, intid, offset, url=True):
     """ Generates a DOI based on Crockford's base32
@@ -80,12 +106,32 @@ def revert_doi(doi):
     i = b32.decode(encoded, checksum=True)
     n = int(i / 37)
     c = i % 37
-    intid = c + n * 32
+    intid = int(c + n * 32)
     batch = int(intid / 2e6)
-    offset = batch * 2e6
+    offset = int(batch * 2e6)
     intid = intid - offset
     return {'prefix': prefix, 'offset': offset, 'intid': intid}
+
+def main():
+    args = docopt(__doc__, argv=sys.argv[1:], help=True)
+    if args['--reverse']:
+        res = revert_doi(args['<doi>'])
+        print('\nDOI: {}\nPrefix: {}\nOffset: {}\nIntID: {}\n'
+              .format(args['<doi>'], res['prefix'],
+                      res['offset'], res['intid']))
+    else:
+        print(args)
+        doi = generate_doi(args['<prefix>'], args['<id>'],
+                           int(float(args['<offset>'])),
+                           url=args['--url'])
+        print('\nPrefix: {}\nOffset: {}\nIntID: {}\nDOI: {}'
+              .format(args['<prefix>'], args['<offset>'], args['<id>'], doi))
+
+                      
+                                              
+        
 
 
                    
             
+
