@@ -26,7 +26,7 @@ import base32_crockford as b32
 import sys
 from docopt import docopt
 
-def generate_doi(prefix, intid, offset, url=True):
+def generate_doi(prefix, intid, offset, url=False):
     """ Generates a DOI based on Crockford's base32
     http://www.crockford.com/wrmg/base32.html
     
@@ -120,7 +120,6 @@ def main():
               .format(args['<doi>'], res['prefix'],
                       res['offset'], res['intid']))
     else:
-        print(args)
         doi = generate_doi(args['<prefix>'], args['<id>'],
                            int(float(args['<offset>'])),
                            url=args['--url'])
