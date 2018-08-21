@@ -102,7 +102,12 @@ def revert_doi(doi):
          "intid" (int): internal ID}
 
     '''
-    prefix, encoded = doi.split('/')
+    try:
+        prefix, encoded = doi.split('/')
+    except ValueError:
+        # assuming prefix was omitted
+        encoded = doi
+        prefix = None
     i = b32.decode(encoded, checksum=True)
     n = int(i / 37)
     c = i % 37
